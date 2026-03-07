@@ -23,8 +23,8 @@ const createStorageArea = () => {
       Object.keys(store).forEach(k => delete store[k]);
       return Promise.resolve();
     }),
-    getBytesInUse: vi.fn((keys: string | string[] | null) => {
-      if (keys === null) {
+    getBytesInUse: vi.fn((keys: string | string[] | null | undefined) => {
+      if (keys === null || keys === undefined) {
         return Promise.resolve(JSON.stringify(store).length);
       }
       const keyList = Array.isArray(keys) ? keys : [keys];

@@ -127,14 +127,14 @@ describe('chrome-storage-typed', () => {
     it('should return bytes in use for local storage', async () => {
       await set('sizeKey', 'hello');
       const bytes = await getBytesInUse();
-      expect(chrome.storage.local.getBytesInUse).toHaveBeenCalledWith(null);
+      expect(chrome.storage.local.getBytesInUse).toHaveBeenCalledWith(undefined);
       expect(bytes).toBeGreaterThan(0);
     });
 
     it('should return bytes in use for sync storage', async () => {
       await set('syncSize', 'world', 'sync');
       const bytes = await getBytesInUse(undefined, 'sync');
-      expect(chrome.storage.sync.getBytesInUse).toHaveBeenCalledWith(null);
+      expect(chrome.storage.sync.getBytesInUse).toHaveBeenCalledWith(undefined);
       expect(bytes).toBeGreaterThan(0);
     });
 
