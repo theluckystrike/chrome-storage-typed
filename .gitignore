@@ -2,4 +2,3 @@ node_modules/
 dist/
 coverage/
 *.tgz
-package-lock.json
