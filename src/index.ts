@@ -111,5 +111,5 @@ export const SYNC_QUOTA = {
  * Get the bytes in use for a storage area.
  */
 export async function getBytesInUse(keys?: string | string[], area: StorageArea = 'local'): Promise<number> {
-  return await getArea(area).getBytesInUse(keys ?? undefined);
+  return getArea(area).getBytesInUse(keys);
 }
