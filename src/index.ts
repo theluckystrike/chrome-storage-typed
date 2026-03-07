@@ -1,16 +1,11 @@
 /**
  * @theluckystrike/chrome-storage-typed
- * Type-safe wrapper for Chrome storage API with automatic serialization.
+ * Type-safe wrapper for Chrome extension storage API.
  *
  * Built by theluckystrike — https://zovo.one
  */
 
 export type StorageArea = 'local' | 'sync' | 'session';
-
-export interface StorageChangeEvent<T> {
-  newValue: T | undefined;
-  oldValue: T | undefined;
-}
 
 function getArea(area: StorageArea): chrome.storage.StorageArea {
   switch (area) {
