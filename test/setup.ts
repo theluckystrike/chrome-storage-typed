@@ -23,6 +23,17 @@ const createStorageArea = () => {
       Object.keys(store).forEach(k => delete store[k]);
       return Promise.resolve();
     }),
+    getBytesInUse: vi.fn((keys: string | string[] | null) => {
+      if (keys === null) {
+        return Promise.resolve(JSON.stringify(store).length);
+      }
+      const keyList = Array.isArray(keys) ? keys : [keys];
+      const size = keyList.reduce((acc, k) => {
+        if (k in store) return acc + JSON.stringify({ [k]: store[k] }).length;
+        return acc;
+      }, 0);
+      return Promise.resolve(size);
+    }),
     _store: store,
   };
 };
@@ -100,4 +111,5 @@ export function resetChromeMocks(): void {
   vi.clearAllMocks();
   chromeMock.storage.local._store && Object.keys(chromeMock.storage.local._store).forEach(k => delete (chromeMock.storage.local._store as Record<string, unknown>)[k]);
   chromeMock.storage.sync._store && Object.keys(chromeMock.storage.sync._store).forEach(k => delete (chromeMock.storage.sync._store as Record<string, unknown>)[k]);
+  chromeMock.storage.session._store && Object.keys(chromeMock.storage.session._store).forEach(k => delete (chromeMock.storage.session._store as Record<string, unknown>)[k]);
 }

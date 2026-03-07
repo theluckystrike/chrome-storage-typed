@@ -97,3 +97,19 @@ export function watch<T>(
 export async function clear(area: StorageArea = 'local'): Promise<void> {
   await getArea(area).clear();
 }
+
+/** Chrome sync storage quota constants */
+export const SYNC_QUOTA = {
+  QUOTA_BYTES: 102400,
+  QUOTA_BYTES_PER_ITEM: 8192,
+  MAX_ITEMS: 512,
+  MAX_WRITE_OPERATIONS_PER_HOUR: 1800,
+  MAX_WRITE_OPERATIONS_PER_MINUTE: 120,
+} as const;
+
+/**
+ * Get the bytes in use for a storage area.
+ */
+export async function getBytesInUse(keys?: string | string[], area: StorageArea = 'local'): Promise<number> {
+  return getArea(area).getBytesInUse(keys ?? null);
+}

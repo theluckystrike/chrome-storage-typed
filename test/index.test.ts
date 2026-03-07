@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { resetChromeMocks } from './setup';
-import { get, set, remove, getMany, setMany, watch, clear } from '../src/index';
+import { get, set, remove, getMany, setMany, watch, clear, SYNC_QUOTA, getBytesInUse } from '../src/index';
 
 describe('chrome-storage-typed', () => {
   beforeEach(() => {
@@ -120,6 +120,64 @@ describe('chrome-storage-typed', () => {
     it('should clear sync storage when specified', async () => {
       await clear('sync');
       expect(chrome.storage.sync.clear).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getBytesInUse', () => {
+    it('should return bytes in use for local storage', async () => {
+      await set('sizeKey', 'hello');
+      const bytes = await getBytesInUse();
+      expect(chrome.storage.local.getBytesInUse).toHaveBeenCalledWith(null);
+      expect(bytes).toBeGreaterThan(0);
+    });
+
+    it('should return bytes in use for sync storage', async () => {
+      await set('syncSize', 'world', 'sync');
+      const bytes = await getBytesInUse(undefined, 'sync');
+      expect(chrome.storage.sync.getBytesInUse).toHaveBeenCalledWith(null);
+      expect(bytes).toBeGreaterThan(0);
+    });
+
+    it('should return bytes in use for specific keys', async () => {
+      await set('a', 1);
+      await set('b', 2);
+      const bytes = await getBytesInUse(['a']);
+      expect(chrome.storage.local.getBytesInUse).toHaveBeenCalledWith(['a']);
+      expect(bytes).toBeGreaterThan(0);
+    });
+  });
+
+  describe('SYNC_QUOTA', () => {
+    it('should export correct sync quota constants', () => {
+      expect(SYNC_QUOTA.QUOTA_BYTES).toBe(102400);
+      expect(SYNC_QUOTA.QUOTA_BYTES_PER_ITEM).toBe(8192);
+      expect(SYNC_QUOTA.MAX_ITEMS).toBe(512);
+      expect(SYNC_QUOTA.MAX_WRITE_OPERATIONS_PER_HOUR).toBe(1800);
+      expect(SYNC_QUOTA.MAX_WRITE_OPERATIONS_PER_MINUTE).toBe(120);
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should not fire watch callback for a different key in the same area', () => {
+      const callback = vi.fn();
+      watch<string>('keyA', callback);
+
+      const listener = (chrome.storage.onChanged.addListener as ReturnType<typeof vi.fn>).mock.calls[0][0];
+
+      // Simulate a change for a different key in the same area
+      listener(
+        { keyB: { newValue: 'new', oldValue: 'old' } },
+        'local'
+      );
+
+      expect(callback).not.toHaveBeenCalled();
+    });
+
+    it('should get a value from session storage', async () => {
+      await set('sessionData', { active: true }, 'session');
+      const result = await get<{ active: boolean }>('sessionData', 'session');
+      expect(chrome.storage.session.get).toHaveBeenCalledWith('sessionData');
+      expect(result).toEqual({ active: true });
     });
   });
 });
