@@ -1,10 +1,11 @@
+[![CI](https://github.com/theluckystrike/chrome-storage-typed/actions/workflows/ci.yml/badge.svg)](https://github.com/theluckystrike/chrome-storage-typed/actions)
+[![npm](https://img.shields.io/npm/v/@theluckystrike/chrome-storage-typed)](https://www.npmjs.com/package/@theluckystrike/chrome-storage-typed)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+
 # @theluckystrike/chrome-storage-typed
 
 Type-safe wrapper for the Chrome storage API with automatic serialization.
-
-[![npm version](https://img.shields.io/npm/v/@theluckystrike/chrome-storage-typed)](https://www.npmjs.com/package/@theluckystrike/chrome-storage-typed)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Install
 
@@ -110,4 +111,7 @@ interface StorageChangeEvent<T> {
 
 ## License
 
-MIT - Built by [theluckystrike](https://github.com/theluckystrike) | [zovo.one](https://zovo.one)
+MIT
+
+---
+Built by [theluckystrike](https://github.com/theluckystrike) — [zovo.one](https://zovo.one)
