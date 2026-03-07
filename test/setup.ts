@@ -74,7 +74,7 @@ const chromeMock = {
     onClicked: { addListener: vi.fn(), removeListener: vi.fn() },
   },
   notifications: {
-    create: vi.fn((_id: string, _opts: unknown) => Promise.resolve('mock-notif-id')),
+    create: vi.fn(() => Promise.resolve('mock-notif-id')),
     clear: vi.fn(() => Promise.resolve(true)),
     onClicked: { addListener: vi.fn(), removeListener: vi.fn() },
   },
