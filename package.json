@@ -7,7 +7,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "type": "module",
@@ -34,9 +35,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/theluckystrike/chrome-storage-typed"
+    "url": "git+https://github.com/theluckystrike/chrome-storage-typed.git"
   },
-  "homepage": "https://zovo.one",
+  "homepage": "https://github.com/theluckystrike/chrome-storage-typed#readme",
+  "bugs": {
+    "url": "https://github.com/theluckystrike/chrome-storage-typed/issues"
+  },
   "devDependencies": {
     "typescript": "^5.4.0",
     "vitest": "^2.0.0",
